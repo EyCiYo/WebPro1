@@ -4,6 +4,11 @@ let gamestat = true;
 let score = 0;
 let stage = 0;
 let matsize = 0;
+const replay = document.getElementById('enddiag')
+const restart = document.getElementById('restartbtn');
+const endscore = document.getElementById('endscore');
+
+restart.addEventListener('click', () => {init();}); 
 
 function sleep(ms) 
 {
@@ -13,21 +18,30 @@ function sleep(ms)
 function setEventListener()
 {
     let cards = document.querySelectorAll('.card');
-    cards.forEach(card => card.disabled = false);
+    cards.forEach(card => card.addEventListener('click', handleClick));
 }
 
 function disableListener()
 {
     let cards = document.querySelectorAll('.card');
-    cards.forEach(card => card.disabled = true);
+    cards.forEach(card => card.removeEventListener('click', handleClick));
 }
 
-function getRandomList(length, min, max)
+function getRandomList(len, min, max)
 {
     const list = [];
-    for (let i = 0; i < length; i++) {
-      list.push(Math.floor(Math.random() * ((max - min) + min)));
+    do 
+    {
+        // Generating random number
+        const randomNumber = Math
+            .floor(Math.random() * ((max - min) + min));
+     
+        if (!list.includes(randomNumber)) 
+        {
+            list.push(randomNumber);
+        }
     }
+    while (list.length < len);
     console.log(list);
     return list;
 }
@@ -35,9 +49,9 @@ function getRandomList(length, min, max)
 function gameEnd()
 {
     gamestat = false;
-    console.log("U failed");
     disableListener();
-    document.getElementById('enddiag').showModal();
+    replay.style.visibility = "visible";
+    endscore.innerHTML = score;
 }
 
 function init() {
@@ -46,18 +60,16 @@ function init() {
     matsize = 3;
     result = [];
     answer = [];
+    gamestat = true;
+    replay.style.visibility = "hidden";
     makeMat(matsize);
     gameloop();
 }
 init();
-document.getElementById('restartbtn').addEventListener('click', () => {
-    document.getElementById('enddiag').close();
-    init();
-});
 function gameloop()
 {
     result = [];
-    console.log(result);
+    document.getElementById('score').innerHTML = "Score: "+ score;
     setEventListener();
     if(gamestat)
     {
@@ -85,7 +97,6 @@ async function illuminate(answer)
 }
 function checkResult(result, length)
 {
-    console.log(result,length);
     if(result[length-1] != answer[length-1])
     {
         gameEnd();
@@ -114,8 +125,6 @@ async function handleClick(event) {
     await lightUp(cardId);
     if(answer.includes(cardId))
     {
-        console.log(result);
-        console.log(cardId);
         result.push(cardId);    
         checkResult(result,result.length);
     }
@@ -128,10 +137,12 @@ async function handleClick(event) {
 function makeMat(val){
     document.querySelector('.matrix').innerHTML='';
     let k = 0;
-    for (let i = 0; i < val; i++) {
+    for (let i = 0; i < val; i++) 
+    {
         let row = document.createElement('div');
         row.className = 'row';
-        for (let j = 0; j < val; j++) {
+        for (let j = 0; j < val; j++) 
+        {
             let card = document.createElement('div');
             card.className = 'card';
             card.id = k++;
