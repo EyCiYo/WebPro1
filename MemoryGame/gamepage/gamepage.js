@@ -1,155 +1,161 @@
-let result = [];
-let answer = [];
-let gamestat = true;
-let score = 0;
-let stage = 0;
-let matsize = 0;
-const replay = document.getElementById('enddiag')
-const restart = document.getElementById('restartbtn');
-const endscore = document.getElementById('endscore');
+let cs013result = [];
+let cs013answer = [];
+let cs013gamestat = true;
+let cs013score = 0;
+let cs013stage = 0;
+let cs013matsize = 0;
+const cs013restart = document.getElementById('restartbtn');
+const cs013endmsg = document.querySelector('.cs013endtext');
 
-restart.addEventListener('click', () => {init();}); 
-
-function sleep(ms) 
+function cs013sleep(ms) 
 {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function setEventListener()
+function cs013setEventListener()
 {
-    let cards = document.querySelectorAll('.card');
-    cards.forEach(card => card.addEventListener('click', handleClick));
+    let cards = document.querySelectorAll('.cs013card');
+    cards.forEach(card => card.addEventListener('click', cs013handleClick));
 }
 
-function disableListener()
+function cs013disableListener()
 {
-    let cards = document.querySelectorAll('.card');
-    cards.forEach(card => card.removeEventListener('click', handleClick));
+    let cards = document.querySelectorAll('.cs013card');
+    cards.forEach(card => card.removeEventListener('click', cs013handleClick));
 }
 
-function getRandomList(len, min, max)
+function cs013getRandomList(cs013len, cs013min, cs013max)
 {
-    const list = [];
+    const cs013list = [];
     do 
     {
         // Generating random number
-        const randomNumber = Math
-            .floor(Math.random() * ((max - min) + min));
+        const cs013randomNumber = Math
+            .floor(Math.random() * ((cs013max - cs013min) + cs013min));
      
-        if (!list.includes(randomNumber)) 
+        if (!cs013list.includes(cs013randomNumber)) 
         {
-            list.push(randomNumber);
+            cs013list.push(cs013randomNumber);
         }
     }
-    while (list.length < len);
-    console.log(list);
-    return list;
+    while (cs013list.length < cs013len);
+    return cs013list;
 }
 
-function gameEnd()
+function cs013gameEnd()
 {
-    gamestat = false;
-    disableListener();
-    replay.style.visibility = "visible";
-    endscore.innerHTML = score;
+    cs013gamestat = false;
+    cs013restart.addEventListener('click',cs013init); 
+    cs013disableListener();
+    cs013endmsg.innerHTML = "Game Over. Score: "+ cs013score;
+    cs013endmsg.style.visibility = "visible";
+    cs013restart.innerHTML = "Play Again";
+    cs013restart.style.visibility = "visible";
 }
 
-function init() {
-    score = 0;
-    stage = 1;
-    matsize = 3;
-    result = [];
-    answer = [];
-    gamestat = true;
-    replay.style.visibility = "hidden";
-    makeMat(matsize);
-    gameloop();
+function cs013init() {
+    cs013score = 0;
+    cs013stage = 1;
+    cs013matsize = 3;
+    cs013result = [];
+    cs013answer = [];
+    cs013gamestat = true;
+    cs013restart.style.visibility = "visible";
+    cs013endmsg.style.visibility = "visible";
+    cs013endmsg.style.fontSize = "30px" ;
+    cs013endmsg.innerHTML = "Click on the cards in the order they were highlighted";
+    cs013restart.innerHTML = "Start";
+    cs013makeMat(cs013matsize);
+    cs013restart.addEventListener('click', cs013gameloop);
 }
-init();
-function gameloop()
+cs013init();
+function cs013gameloop()
 {
-    result = [];
-    document.getElementById('score').innerHTML = "Score: "+ score;
-    setEventListener();
-    if(gamestat)
+    cs013result = [];
+    cs013restart.style.visibility = "hidden";
+    cs013endmsg.style.visibility = "hidden";
+    cs013restart.removeEventListener('click',cs013gameloop);
+    document.getElementById('score').innerHTML = "Score: "+ cs013score;
+    cs013setEventListener();
+    if(cs013gamestat)
     {
-        answer = getRandomList(stage,0,matsize*matsize);
-        illuminate(answer);
+        cs013answer = cs013getRandomList(cs013stage,0,cs013matsize*cs013matsize);
+        cs013illuminate(cs013answer);
     }
 }
-async function lightUp(cardId)
+async function cs013lightUp(cs013cardId)
 {
-    document.getElementById(cardId).style.backgroundColor = "red";
-    await sleep(500);  
-    document.getElementById(cardId).style.backgroundColor = "#64CCC5"; 
+    document.getElementById(cs013cardId).style.backgroundColor = "red";
+    await cs013sleep(500);  
+    document.getElementById(cs013cardId).style.backgroundColor = "#64CCC5"; 
 }
 
-async function illuminate(answer)
+async function cs013illuminate(answer)
 {
-    disableListener();
-    await sleep(500);
-    for(let i = 0; i < stage; i++)
+    cs013disableListener();
+    await cs013sleep(500);
+    for(let i = 0; i < cs013stage; i++)
     {
-        //code to sequentially illuminate the cards in answer array
-        await lightUp(answer[i]);   
+        //code to sequentially cs013illuminate the cards in answer array
+        await cs013lightUp(answer[i]);   
     }
-    setEventListener(); 
+    cs013setEventListener(); 
 }
-function checkResult(result, length)
+function cs013checkResult(cs013result, length)
 {
-    if(result[length-1] != answer[length-1])
+    if(cs013result[length-1] != cs013answer[length-1])
     {
-        gameEnd();
+        cs013gameEnd();
     }
-    else if(length == stage)
+    else if(length == cs013stage)
     {
-        score++;
-        stage++;
-        document.getElementById('score').innerHTML = "Score: "+ score;
-        if(stage%5 == 0)
+        cs013score++;
+        cs013stage++;
+        document.getElementById('score').innerHTML = "Score: "+ cs013score;
+        if(cs013stage%5 == 0)
         {
-            matsize++;
-            makeMat(matsize);
+            cs013matsize++;
+            cs013makeMat(cs013matsize);
         }
-        gamestat = true;
-        result = [];
-        answer = [];
-        gameloop();
+        cs013gamestat = true;
+        cs013result = [];
+        cs013answer = [];
+        cs013gameloop();
     }
 }
 
 
-async function handleClick(event) {
+async function cs013handleClick(event) {
     let card = event.target;
     let cardId = Number(card.id);
-    await lightUp(cardId);
-    if(answer.includes(cardId))
+    await cs013lightUp(cardId);
+    if(cs013answer.includes(cardId))
     {
-        result.push(cardId);    
-        checkResult(result,result.length);
+        cs013result.push(cardId);    
+        cs013checkResult(cs013result,cs013result.length);
     }
     else
     {
-        gameEnd();
+        cs013gameEnd();
     }
 
 }
-function makeMat(val){
-    document.querySelector('.matrix').innerHTML='';
+function cs013makeMat(val){
+    document.querySelector('.cs013matrix').innerHTML='';
     let k = 0;
     for (let i = 0; i < val; i++) 
     {
         let row = document.createElement('div');
-        row.className = 'row';
+        row.className = 'cs013row';
         for (let j = 0; j < val; j++) 
         {
             let card = document.createElement('div');
-            card.className = 'card';
+            card.className = 'cs013card';
             card.id = k++;
-            card.addEventListener('click', handleClick);
+            card.addEventListener('click', cs013handleClick);
             row.appendChild(card);
         }
-        document.querySelector('.matrix').appendChild(row);
+        document.querySelector('.cs013matrix').appendChild(row);
         
     }
 }

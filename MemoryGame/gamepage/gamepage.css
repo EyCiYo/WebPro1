@@ -1,57 +1,62 @@
-*{
+.cs13{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
-body{
-    overscroll-behavior: none;
+.cs013wrapper{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-color:#053B50;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-.navbar{
+.cs013navbar{
     padding: 0.5rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     background: #ffffff88;
-    height: 8vh;
+    height: 56.56px;
 }
-.title{
+.cs013title{
     font-size: 2rem;
     font-weight: 500;
     padding-left: 1rem;
     cursor: default;
     user-select: none;
 }
-.score{
+.cs013score{
     font-size: 1.25rem;
     padding-right: 1.5rem;
 }
-.game{
+.cs013game{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1rem;
     padding: 1rem;   
-    height: 92vh;
+    height: 650.44px;
+    background-color:#053B50;
 }
-.matrix{
+.cs013matrix{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1rem;
 }
-.row{
+.cs013row{
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 1rem;
 }
-.card{
+.cs013card{
     width: 5rem;
     height: 5rem;
     border-radius: 0.5rem;
@@ -60,34 +65,18 @@ body{
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
-.gameend{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    height: 30vh;
-    width: 30vw;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #006b8e;
-    border: #000000 5px solid;
-    border-radius: 2rem;
-    visibility: hidden;
-}
-.endtext {
-    font-size: 24px;
+.cs013endtext {
+    font-size: 80px;
+    color: red;
     /* font-weight: 500; */
 }
-.endscore{
+.cs013endscore{
     font-size: 1.25rem;
 }
-.btn{
+.cs013btn{
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
+    font-size: 24px;
     background: #64CCC5;
     box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
     cursor: pointer;
