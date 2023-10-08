@@ -7,24 +7,24 @@ let cs013matsize = 0;
 const cs013restart = document.getElementById('restartbtn');
 const cs013endmsg = document.querySelector('.cs013endtext');
 
-function cs013sleep(ms) 
+function cs013sleep(ms)         //for timeout
 {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function cs013setEventListener()
+function cs013setEventListener()        //for event listener
 {
     let cards = document.querySelectorAll('.cs013card');
     cards.forEach(card => card.addEventListener('click', cs013handleClick));
 }
 
-function cs013disableListener()
+function cs013disableListener()         //for disabling event listener
 {
     let cards = document.querySelectorAll('.cs013card');
     cards.forEach(card => card.removeEventListener('click', cs013handleClick));
 }
 
-function cs013getRandomList(cs013len, cs013min, cs013max)
+function cs013getRandomList(cs013len, cs013min, cs013max)       //for generating random list
 {
     const cs013list = [];
     do 
@@ -42,7 +42,7 @@ function cs013getRandomList(cs013len, cs013min, cs013max)
     return cs013list;
 }
 
-function cs013gameEnd()
+function cs013gameEnd()         //handling game end
 {
     cs013gamestat = false;
     cs013restart.addEventListener('click',cs013init); 
@@ -53,7 +53,8 @@ function cs013gameEnd()
     cs013restart.style.visibility = "visible";
 }
 
-function cs013init() {
+function cs013init()            //initializing game
+{          
     cs013score = 0;
     cs013stage = 1;
     cs013matsize = 3;
@@ -69,7 +70,7 @@ function cs013init() {
     cs013restart.addEventListener('click', cs013gameloop);
 }
 cs013init();
-function cs013gameloop()
+function cs013gameloop()            //game loop
 {
     cs013result = [];
     cs013restart.style.visibility = "hidden";
@@ -83,14 +84,14 @@ function cs013gameloop()
         cs013illuminate(cs013answer);
     }
 }
-async function cs013lightUp(cs013cardId)
+async function cs013lightUp(cs013cardId)            //for highlighting each card
 {
     document.getElementById(cs013cardId).style.backgroundColor = "red";
     await cs013sleep(500);  
     document.getElementById(cs013cardId).style.backgroundColor = "#64CCC5"; 
 }
 
-async function cs013illuminate(answer)
+async function cs013illuminate(answer)          //for illuminating cards
 {
     cs013disableListener();
     await cs013sleep(500);
@@ -101,7 +102,7 @@ async function cs013illuminate(answer)
     }
     cs013setEventListener(); 
 }
-function cs013checkResult(cs013result, length)
+function cs013checkResult(cs013result, length)          //for checking result on each click
 {
     if(cs013result[length-1] != cs013answer[length-1])
     {
@@ -112,7 +113,7 @@ function cs013checkResult(cs013result, length)
         cs013score++;
         cs013stage++;
         document.getElementById('score').innerHTML = "Score: "+ cs013score;
-        if(cs013stage%5 == 0)
+        if(cs013stage%5 == 0)           //for increasing matrix size after every 5 stages
         {
             cs013matsize++;
             cs013makeMat(cs013matsize);
@@ -125,7 +126,8 @@ function cs013checkResult(cs013result, length)
 }
 
 
-async function cs013handleClick(event) {
+async function cs013handleClick(event)      //for handling click on each card
+{
     let card = event.target;
     let cardId = Number(card.id);
     await cs013lightUp(cardId);
@@ -140,7 +142,8 @@ async function cs013handleClick(event) {
     }
 
 }
-function cs013makeMat(val){
+function cs013makeMat(val)          //for making matrix
+{
     document.querySelector('.cs013matrix').innerHTML='';
     let k = 0;
     for (let i = 0; i < val; i++) 
